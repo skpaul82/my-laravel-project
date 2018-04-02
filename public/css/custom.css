@@ -1,0 +1,12 @@
+/**
+ * All common custom css for the application
+ * @author skpaul <hello@skpaul.me>
+ */
+
+#radioBtn a, .radioBtn a{
+	background: #18b600;
+}
+#radioBtn .notActive, .radioBtn .notActive{
+    color: #3276b1;
+    background-color: #ddd;
+}
