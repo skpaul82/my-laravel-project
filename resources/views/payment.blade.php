@@ -99,24 +99,46 @@
             // return false;
         }*/
 
-        // async
-        Stripe.card.createToken($form, function(status, response){
-            console.log(status);
-            console.log(response);
+        if($form.find('#paymentType').val() == 'card'){
 
-            if (response.error) {
-                $form.find('.payment-errors').text(response.error.message);
-                $form.find('button').prop('disabled', false);
-            } else {
-                var token = response.id;
+            // async - Create token for Card
+            Stripe.card.createToken($form, function(status, response){
+                console.log(status);
+                console.log(response);
 
-                //append the token and submit
-                $form.append($('<input type="hidden" name="stripe_token" />').val(token));
+                if (response.error) {
+                    $form.find('.payment-errors').text(response.error.message);
+                    $form.find('button').prop('disabled', false);
+                } else {
+                    var token = response.id;
 
-                $form.get(0).submit();
-            }
-        } );
+                    //append the token and submit
+                    $form.append($('<input type="hidden" name="stripe_token" />').val(token));
 
+                    $form.get(0).submit();
+                }
+            } );
+        
+        }else {
+
+            // async - Create token for ACH/Bank Account
+            Stripe.bankAccount.createToken($form, function(status, response){
+                console.log(status);
+                console.log(response);
+
+                if (response.error) {
+                    $form.find('.payment-errors').text(response.error.message);
+                    $form.find('button').prop('disabled', false);
+                } else {
+                    var token = response.id;
+
+                    //append the token and submit
+                    $form.append($('<input type="hidden" name="stripe_token" />').val(token));
+
+                    $form.get(0).submit();
+                }
+            } );
+        }
         return false;
     });
 
@@ -130,6 +152,48 @@
         account_holder_name: $('.name').val(),
         account_holder_type: $('.account_holder_type').val()
     }, stripeResponseHandler);*/
+
+    // ach - https://jsfiddle.net/ywain/L2cefvtp/
+    /*var stripe = Stripe('pk_test_6pRNASCoBOKtIshFeQd4XMUh');
+
+    function setOutcome(result) {
+        var successElement = document.querySelector('.success');
+        var errorElement = document.querySelector('.error');
+        successElement.classList.remove('visible');
+        errorElement.classList.remove('visible');
+
+        if (result.token) {
+            // In this example, we're simply displaying the token
+            successElement.querySelector('.token').textContent = result.token.id;
+            successElement.classList.add('visible');
+
+            // In a real integration, you'd submit the form with the token to your backend server
+            //var form = document.querySelector('form');
+            //form.querySelector('input[name="token"]').setAttribute('value', result.token.id);
+            //form.submit();
+        } else {
+            errorElement.textContent = result.error.message;
+            errorElement.classList.add('visible');
+        }
+    }
+
+    document.querySelector('form').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        var bankAccountParams = {
+            country: document.getElementById('country').value,
+            currency: document.getElementById('currency').value,
+            account_number: document.getElementById('account-number').value,
+            account_holder_name: document.getElementById('account-holder-name').value,
+            account_holder_type: document.getElementById('account-holder-type').value,
+        }
+        if (document.getElementById('routing-number').value != '') {
+            bankAccountParams['routing_number'] = document.getElementById('routing-number').value;
+        }
+
+        stripe.createToken('bank_account', bankAccountParams).then(setOutcome);
+    });*/
+
 
 
     
