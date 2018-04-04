@@ -3,21 +3,27 @@
 		<table class="table table-inverse">
 			<thead>
 				<tr>
-					<th>#</th>
-					<th>Cards</th>
-					<th>Type</th>
+					<th class="text-center">#</th>
+					<th class="text-center">Date</th>
+					<th class="text-right">Amount</th>
+					<th class="text-left"></th>
+					<th class="text-center">Description</th>
+					{{-- <th class="text-center">Mode</th> --}}
+					<th class="text-center">Status</th>
 				</tr>
 			</thead>
 			<tbody>
-				@if(isset($cards->data) AND count($cards->data) > 0)
-					@foreach($cards->data as $key=>$card)
+				{{-- {{ dd($charges->data) }} --}}
+				@if(isset($charges->data) AND count($charges->data) > 0)
+					@foreach($charges->data as $key=>$charge)
 					<tr>
-						<td>{{ $key+1 }}</td>
-						<td>
-							<i class="fab fc-cc-{{ str_slug($card->brand) }}"></i>
-							{{ $card->brand .'....'. $card->last4 }}
-						</td>
-						<td class="text-capitalize">{{ $card->funding }}</td>
+						<td class="text-center">{{ $key+1 }}</td>
+						<td class="text-center">{{ date('Y/m/d H:i:s', ($charge->created)) }}</td>
+						<td class="text-right">{{ number_format($charge->amount/100, 2) }}</td>
+						<td class="text-left">{{ strtoupper($charge->currency) }}</td>
+						<td class="text-right">{{ $charge->description }} </td>
+						{{-- <td>{{ $charge->description }} </td> --}}
+						<td class="text-center text-capitalize">{{ $charge->status }}</td>
 					</tr>
 					@endforeach
 				@endif

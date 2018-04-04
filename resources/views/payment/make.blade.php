@@ -86,8 +86,7 @@
                             name="Country"
                             placeholder="Country"
                             autocomplete="country"  
-                            value="USA"
-                            readonly 
+                            value="US"
                             />
                             <span class="input-group-addon"><i class="fa fa-bars"></i></span>
                         </div>
@@ -106,7 +105,6 @@
                             placeholder="Currency"
                             autocomplete="currency"  
                             value="usa"
-                            readonly 
                             />
                             <span class="input-group-addon"><i class="fa fa-bars"></i></span>
                         </div>

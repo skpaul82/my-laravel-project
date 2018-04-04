@@ -20,6 +20,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/payment', 'PaymentController@index')->name('payment');
 Route::post('/checkout', 'PaymentController@checkout')->name('checkout');
+Route::get('/thank-you', 'PaymentController@paymentSuccess')->name('thank-you');
 Route::get('/cards-and-accounts', 'PaymentController@getCardsandAccounts')->name('card-account.list');
 // -- stripe customer --
 Route::post('/add-customer', 'PaymentController@addCustomer')->name('customer.add');

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Stripe\Stripe;
 use Stripe\Customer;
 use Stripe\Charge;
+use Stripe\Invoice;
 use Stripe\Card;
 use Stripe\Account;
 use App\User;
@@ -21,8 +22,8 @@ class PaymentController extends Controller
         // Set secret key
         Stripe::setApiKey(config('services.stripe.secret'));
 
-        
-        
+        // checking user is login/session out or not
+        $this->middleware('auth');
     }
     /**
      * Display a listing of the resource.
@@ -47,6 +48,12 @@ class PaymentController extends Controller
                     ->sources->all(array('limit'=>3, 'object' => 'card'));
                 // dd($data['cards']);
                 
+                // $data['charges'] = Charge::retrieve("$user->stripe_id");
+                // $data['charges'] = Charge::all(array('limit'=>1));
+                $data['charges'] = Charge::all();
+                // to get all the invoices, invoices are available only for subscriptions
+                // $data['invoices'] = Invoice::all();
+                // dd($data['charges']);
             } catch (Exception $e) {
                 dd($e);
             }
@@ -83,7 +90,7 @@ class PaymentController extends Controller
 
             // Retrieve customer from stripe by customer stripe id
             $customer = Customer::retrieve($user->stripe_id);
-            dd($customer);
+            // dd(1, $customer);
 
         }else {
 
@@ -91,6 +98,7 @@ class PaymentController extends Controller
             $customer = Customer::create([
                 'source' => $request->stripe_token,
                 'email' => $user->email,
+                'name' => $user->firstName .' '. $user->lastName,
                 'description' => 'Testing 1 2 3..',
             ]);
 
@@ -139,17 +147,31 @@ class PaymentController extends Controller
 
         
 
-        dd('payment successful', $customer, $charge);
+        // dd('payment successful', $customer, $charge);
 
+        /*$message = array(
+            'body' => 'Thank You. Your payment has been successfully completed. Please check your email for details.',
+            'type' => 'success'
+        );*/
+
+        return redirect('thank-you');
+            // ->withMessage($message);
+    }
+
+    /**
+     * [paymentSuccess show paymant successful message]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function paymentSuccess(Request $request)
+    {
         $message = array(
             'body' => 'Thank You. Your payment has been successfully completed. Please check your email for details.',
             'type' => 'success'
         );
-
-        return redirect('thank-you')
-            ->withMessage($message);
-
-
+        return view($this->url)
+            ->withMessage($message)
+            ->with('page_title', $this->page_title);
     }
 
     /**

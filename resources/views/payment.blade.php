@@ -92,7 +92,7 @@
 
             $form.find('.payment-errors').text("Amount must be at least $11.");
             // $form.find('button').prop('disabled', true);
-            return false;
+            // return false;
         }/*else{
             $form.find('.payment-errors').text("");
             $form.find('button').prop('disabled', ture);
@@ -120,6 +120,15 @@
             } );
         
         }else {
+
+            /*Stripe.bankAccount.createToken({
+                country: $('#Country').val(),
+                currency: $('#Currency').val(),
+                routing_number: $('#RoutingNumber').val(),
+                account_number: $('#AccountNumber').val(),
+                account_holder_name: $('#Name').val(),
+                account_holder_type: $('#AccountHolderType').val()
+            }, stripeResponseHandler);*/
 
             // async - Create token for ACH/Bank Account
             Stripe.bankAccount.createToken($form, function(status, response){
