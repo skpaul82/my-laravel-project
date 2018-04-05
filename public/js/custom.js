@@ -73,6 +73,19 @@ function addRecordOnFromSubmit(ele, url) {
     });
 }
 
+// get data by clicking tab
+function getTabContent(path, loader) {
+    // if( path!='profile' ){
+        $('.preloader').removeClass('hidden')
+        $.get(base_url+'/'+path, function(data) {
+            $('#'+loader).html(data);
+            $('.preloader').addClass('hidden')
+        });
+    /*}else{
+    $('.preloader').addClass('hidden')
+    }*/
+}
+
 
 // print content
 function printContent(el, title){

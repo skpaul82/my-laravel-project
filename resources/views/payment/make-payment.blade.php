@@ -3,9 +3,9 @@
         <input type="hidden" name="_token" value="{{ csrf_token() }}" />
         <p>&nbsp;</p>
         <div class="form-group">
-            <label for="" class="col-xs-12 col-md-3">Type</label>
-            <div class="input-group col-xs-12 col-md-8">
-                <div id="radioBtn" class="btn-group col-xs-12 col-md-7">
+            <label for="" class="col-xs-6 col-md-5 paytype-label">PAYMENT TYPE</label>
+            <div class="input-group col-xs-6 col-md-7">
+                <div id="radioBtn" class="btn-group">
                     <a class="btn btn-success btn-sm text-bold active" data-toggle="paymentType" data-title="card" tabindex="1">Card</a>
                     <a class="btn btn-success btn-sm text-bold notActive" data-toggle="paymentType" data-title="ach">ACH</a>
                 </div>
@@ -15,7 +15,7 @@
 
         <!-- Payment Card Option -->
         <div class="payby payby-card">
-            <div class="row">
+            <div class="">
                 <div class="col-xs-12">
                     <div class="form-group">
                         <label for="cardNumber">CARD NUMBER</label>
@@ -34,7 +34,7 @@
                     </div>                            
                 </div>
             </div>
-            <div class="row">
+            <div class="">
                 <div class="col-xs-7 col-md-7">
                     <div class="form-group">
                         <label for="cardExpiry"><span class="hidden-xs">EXPIRATION</span><span class="visible-xs-inline">EXP</span> DATE</label>
@@ -74,14 +74,14 @@
 
         <!-- Payment ACH Option -->
         <div class="payby payby-ach hidden">
-            <div class="row">
+            <div class="">
                 <div class="col-xs-12 col-md-6">
                     <div class="form-group">
                         <label for="Country">COUNTRY</label>
                         <div class="input-group">
                             <input 
                             type="text"
-                            stripe-data="country"
+                            data-stripe="country"
                             class="form-control"
                             name="Country"
                             placeholder="Country"
@@ -99,12 +99,12 @@
                         <div class="input-group">
                             <input 
                             type="text"
-                            stripe-data="currency"
+                            data-stripe="currency"
                             class="form-control"
                             name="Currency"
                             placeholder="Currency"
                             autocomplete="currency"  
-                            value="usa"
+                            value="usd"
                             />
                             <span class="input-group-addon"><i class="fa fa-bars"></i></span>
                         </div>
@@ -112,14 +112,14 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="">
                 <div class="col-xs-12">
                     <div class="form-group">
                         <label for="AccountType">ACCOUNT NAME</label>
                         <div class="input-group">
                             <input 
                             type="text"
-                            stripe-data="account_holder_name"
+                            data-stripe="account_holder_name"
                             class="form-control"
                             name="accountHolderName"
                             placeholder="Routing number"
@@ -132,14 +132,14 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="">
                 <div class="col-xs-12 col-md-5">
                     <div class="form-group">
                         <label for="routingNumber">ROUTING NUMBER</label>
                         <div class="input-group">
                             <input 
                             type="tel"
-                            stripe-data="routing_number"
+                            data-stripe="routing_number"
                             class="form-control"
                             name="routingNumber"
                             placeholder="Routing number"
@@ -168,10 +168,10 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="">
             </div>
 
-            <div class="row">
+            <div class="">
                 <div class="col-xs-12">
                     <div class="form-group">
                         <label for="AccountType">ACCOUNT TYPE</label>
@@ -188,13 +188,22 @@
         </div>
 
         <!-- Amount -->
-        <div class="row">
+        <div class="">
             <div class="col-xs-12">
                 <div class="form-group">
                     <label for="couponCode">AMOUNT</label>
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
-                        <input type="number" stripe-data="amount" class="form-control" name="amount" id="amount" step="any" min="11" minlength="2" />
+                        <input 
+                            type="number" 
+                            data-stripe="amount" 
+                            class="form-control" 
+                            name="amount" 
+                            id="amount" 
+                            step="any" 
+                            min="11" 
+                            minlength="2" 
+                        />
                         <!-- <input type="text" class="form-control" name="amount" /> -->
                     </div>
                 </div>
@@ -202,7 +211,7 @@
         </div>
 
         <!-- Error -->
-        <div class="row">
+        <div class="">
             <div class="col-xs-12">
                 <div class="form-group">
                     <label class="payment-errors text-danger">
@@ -213,7 +222,7 @@
         </div>
 
         <!-- Submit -->
-        <div class="row">
+        <div class="">
             <div class="col-xs-12">
                 <button class=" btn btn-success btn-lg btn-block" type="submit">Pay</button>
             </div>

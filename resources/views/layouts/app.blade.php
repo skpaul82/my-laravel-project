@@ -90,6 +90,9 @@
     
     <script src="{{ asset('js/app.js') }}"></script>
     <script type="text/javascript">
+        // application base url
+        var base_url = "{{ url('/') }}";
+        
         $(function () {
 
             // SET UP CSRF TOKEN Globally for Ajax Request 
@@ -102,8 +105,9 @@
         });
     </script>
 
-    @yield('jsscript')
     <script src="{{ asset('js/custom.js') }}"></script>
+    
+    @yield('jsscript')
 
 
 </body>

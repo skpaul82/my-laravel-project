@@ -1,5 +1,6 @@
-<div class="row">
-	<div class="col-xs-12 col-md-12">
+<div class="">
+	<div class="col-xs-12 col-md-12 table-responsive">
+		<h2>{{ str_plural('Payment', $charges->data) }}</h2>
 		<table class="table table-inverse">
 			<thead>
 				<tr>
@@ -15,7 +16,8 @@
 			<tbody>
 				{{-- {{ dd($charges->data) }} --}}
 				@if(isset($charges->data) AND count($charges->data) > 0)
-					@foreach($charges->data as $key=>$charge)
+					{{-- @foreach($charges->data as $key=>$charge) --}}
+					@foreach($charges->autoPagingIterator() as $key=>$charge)
 					<tr>
 						<td class="text-center">{{ $key+1 }}</td>
 						<td class="text-center">{{ date('Y/m/d H:i:s', ($charge->created)) }}</td>

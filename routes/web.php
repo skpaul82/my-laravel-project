@@ -19,6 +19,10 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/payment', 'PaymentController@index')->name('payment');
+// Route::get('/make-payment', 'PaymentController@makePayment');
+Route::get('/payment-history', 'PaymentController@paymentHistory');
+Route::get('/payment-setting', 'PaymentController@paymentSetting');
+
 Route::post('/checkout', 'PaymentController@checkout')->name('checkout');
 Route::get('/thank-you', 'PaymentController@paymentSuccess')->name('thank-you');
 Route::get('/cards-and-accounts', 'PaymentController@getCardsandAccounts')->name('card-account.list');

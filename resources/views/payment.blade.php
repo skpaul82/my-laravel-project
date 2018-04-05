@@ -13,6 +13,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
+
                     <div class="row">
                 
                         <ul class="nav nav-tabs justify-content-center">
@@ -20,39 +21,37 @@
                                 <a href="#make-a-payment" class="nav-link active" data-toggle="tab" role="tab">Payment</a>
                             </li>
                             <li class="nav-item">
-                                <a href="#recent-payments" class="nav-link" data-toggle="tab" role="tab">History</a>
+                                <a href="#recent-payments" class="nav-link" data-toggle="tab" role="tab" onclick="getTabContent('payment-history', 'recent-payments')">History</a>
                             </li>
                             <li class="nav-item">
-                                <a href="#payment-settings" class="nav-link" data-toggle="tab" role="tab">Settings</a>
+                                <a href="#payment-settings" class="nav-link" data-toggle="tab" role="tab" onclick="getTabContent('payment-setting', 'payment-settings')">Settings</a>
                             </li>
                             <li class="nav-item disabled">
-                                <a href="#" class="nav-link" data-toggle="tab" role="tab">Disabled</a>
+                                <a href="#" class="nav-link" data-toggle="tab" role="tab" onclick="getTabContent(path, loader)">Disabled</a>
                             </li>
                         </ul>
 
                         <div class="tab-content">
                             <div class="tab-pane active" id="make-a-payment" role="tabpanel" aria-labelledby="make-a-payment-tab">
-                                @include('payment.make')
 
+                                @include('payment.make-payment')
                             </div>
 
                             <div class="tab-pane" id="recent-payments" role="tabpanel" aria-labelledby="recent-payments-tab">
-                                @include('payment.recent')
-                                
+
+                                <div class="magnifier preloader hidden"></div>
+                                {{-- @include('payment.charges') --}}
                             </div>
                             
                             <div class="tab-pane" id="payment-settings" role="tabpanel" aria-labelledby="payment-settings-tab">
-                                @include('payment.setting')
                                 
+                                <div class="magnifier preloader hidden"></div>
+                                {{-- @include('payment.setting') --}}
                             </div>
                             
                             <div class="tab-pane" id="settings" role="tabpanel" aria-labelledby="settings-tab">...</div>
                         </div>
-
-
                     </div>
-
-                    
                 </div>
             </div>
         </div>
@@ -64,6 +63,11 @@
 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 
 <script type="text/javascript">
+    
+    $(function (){
+        // load payment form on page load
+        // getTabContent('make-payment', 'make-a-payment');  
+    });
 
     // show/hide personala and business option
     $('#radioBtn a').click(function(event) {
@@ -82,12 +86,13 @@
     $(".payment-from").submit(function(e) {
         e.preventDefault();
 
-
+        // Get the form object.
         $form = $(this);
+        // Disable the submit button to prevent repeated clicks
         $form.find('button').prop('disabled', true);
 
         var amount = $form.find('#amount').val();
-        // console.log(amount);
+        
         if (amount <= 10) {
 
             $form.find('.payment-errors').text("Amount must be at least $11.");
@@ -130,6 +135,8 @@
                 account_holder_type: $('#AccountHolderType').val()
             }, stripeResponseHandler);*/
 
+
+
             // async - Create token for ACH/Bank Account
             Stripe.bankAccount.createToken($form, function(status, response){
                 console.log(status);
@@ -151,60 +158,5 @@
         return false;
     });
 
-    //https://stripe.com/docs/stripe-js/v2#collecting-bank-account-details
-    //https://jsfiddle.net/ywain/L2cefvtp/
-    /*Stripe.bankAccount.createToken({
-        country: $('.country').val(''),
-        currency: $('.currency').val(),
-        routing_number: $('.routing-number').val(),
-        account_number: $('.account-number').val(),
-        account_holder_name: $('.name').val(),
-        account_holder_type: $('.account_holder_type').val()
-    }, stripeResponseHandler);*/
-
-    // ach - https://jsfiddle.net/ywain/L2cefvtp/
-    /*var stripe = Stripe('pk_test_6pRNASCoBOKtIshFeQd4XMUh');
-
-    function setOutcome(result) {
-        var successElement = document.querySelector('.success');
-        var errorElement = document.querySelector('.error');
-        successElement.classList.remove('visible');
-        errorElement.classList.remove('visible');
-
-        if (result.token) {
-            // In this example, we're simply displaying the token
-            successElement.querySelector('.token').textContent = result.token.id;
-            successElement.classList.add('visible');
-
-            // In a real integration, you'd submit the form with the token to your backend server
-            //var form = document.querySelector('form');
-            //form.querySelector('input[name="token"]').setAttribute('value', result.token.id);
-            //form.submit();
-        } else {
-            errorElement.textContent = result.error.message;
-            errorElement.classList.add('visible');
-        }
-    }
-
-    document.querySelector('form').addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        var bankAccountParams = {
-            country: document.getElementById('country').value,
-            currency: document.getElementById('currency').value,
-            account_number: document.getElementById('account-number').value,
-            account_holder_name: document.getElementById('account-holder-name').value,
-            account_holder_type: document.getElementById('account-holder-type').value,
-        }
-        if (document.getElementById('routing-number').value != '') {
-            bankAccountParams['routing_number'] = document.getElementById('routing-number').value;
-        }
-
-        stripe.createToken('bank_account', bankAccountParams).then(setOutcome);
-    });*/
-
-
-
-    
 </script>
 @endsection
